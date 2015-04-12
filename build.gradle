@@ -1,5 +1,17 @@
 apply plugin: 'java'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath group: 'eu.appsatori',    name: 'gradle-fatjar-plugin',   version: '0.3'
+    }
+}
+
+apply plugin: 'eu.appsatori.fatjar'
+
 repositories {
     mavenCentral()
 }
@@ -9,4 +21,17 @@ dependencies {
     compile group: 'bcel',                  name: 'bcel',       version: '5.1'
     compile group: 'org.apache.commons',    name: 'commons-io', version: '1.3.2' 
 
+}
+
+fatJar {
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.PEM'
+    exclude 'META-INF/maven'
+    exclude 'META-INF/MANIFEST.MF'
+
+    manifest {
+        attributes (
+            'Main-Class': 'net.contra.jmd.Deobfuscator'
+        )
+    }
 }
